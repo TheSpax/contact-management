@@ -1,0 +1,1 @@
+ALTER TABLE contacts ALTER COLUMN type_id TYPE INTEGER
