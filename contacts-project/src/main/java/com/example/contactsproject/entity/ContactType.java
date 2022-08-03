@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class ContactType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "type_name")

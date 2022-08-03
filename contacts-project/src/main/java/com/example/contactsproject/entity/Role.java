@@ -3,7 +3,6 @@ package com.example.contactsproject.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -11,16 +10,10 @@ import java.time.LocalDateTime;
 public class Role {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "type")
     private String type;
-
-    @Column(name = "time_created")
-    private LocalDateTime timeCreated;
-
-    @Column(name = "time_updated")
-    private LocalDateTime timeUpdated;
 
 }
