@@ -1,26 +1,26 @@
 package com.example.contactsproject.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name = "contact_type")
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class ContactType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "type_id", nullable = false)
-    private Integer id;
+    private Long id;
 
-    @Lob
     @Column(name = "type_name")
     private String typeName;
+
+    @Column(name = "time_created")
+    private LocalDateTime timeCreated;
+
+    @Column(name = "time_updated")
+    private LocalDateTime timeUpdated;
 
 }
