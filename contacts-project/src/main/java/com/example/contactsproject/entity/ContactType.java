@@ -12,7 +12,7 @@ public class ContactType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "type_name")
     private String typeName;
