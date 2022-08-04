@@ -1,6 +1,8 @@
 package com.example.contactsproject.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,14 +32,16 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name = "time_created")
+    @Column(name = "time_created", updatable = false)
+    @CreationTimestamp
     private LocalDateTime timeCreated;
 
     @Column(name = "time_updated")
+    @UpdateTimestamp
     private LocalDateTime timeUpdated;
 
 }
