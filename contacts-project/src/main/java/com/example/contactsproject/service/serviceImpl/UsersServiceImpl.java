@@ -2,43 +2,44 @@ package com.example.contactsproject.service.serviceImpl;
 
 import com.example.contactsproject.entity.Users;
 import com.example.contactsproject.repository.UsersRepository;
-import com.example.contactsproject.service.UsersService;
+import com.example.contactsproject.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class UsersServiceImpl implements UsersService{
+public class UsersServiceImpl implements GenericService<Users> {
 
     private final UsersRepository usersRepository;
 
     @Override
-    public List<Users> getAllUsers() {
+    public List<Users> getAll() {
         return usersRepository.findAll();
     }
 
     @Override
-    public Users getUserById(Long id) {
-        return usersRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User doesn't exist"));
+    public Users getByUid(UUID uid) {
+        return usersRepository.findByUid(uid);
     }
 
     @Override
-    public Users saveUser(Users user) {
+    public Users save(Users user) {
+        user.setUid(UUID.randomUUID());
         return usersRepository.save(user);
     }
 
     @Override
-    public Users updateUser(Users user) {
+    public Users update(Users user) {
         return usersRepository.save(user);
     }
 
+    @Transactional
     @Override
-    public void deleteUserById(Long id) {
-        usersRepository.deleteById(id);
+    public void deleteByUid(UUID uid) {
+        usersRepository.deleteByUid(uid);
     }
 }

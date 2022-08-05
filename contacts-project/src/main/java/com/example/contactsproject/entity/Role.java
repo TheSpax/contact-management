@@ -3,6 +3,7 @@ package com.example.contactsproject.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -15,5 +16,8 @@ public class Role {
 
     @Column(name = "type")
     private String type;
+
+    @Column(name = "uid", unique = true, updatable = false)
+    private UUID uid;
 
 }

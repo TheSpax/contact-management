@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -26,5 +27,8 @@ public class ContactType {
     @Column(name = "time_updated")
     @UpdateTimestamp
     private LocalDateTime timeUpdated;
+
+    @Column(name = "uid", unique = true, updatable = false)
+    private UUID uid;
 
 }
