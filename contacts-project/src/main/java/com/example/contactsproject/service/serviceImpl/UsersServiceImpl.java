@@ -1,44 +1,46 @@
 package com.example.contactsproject.service.serviceImpl;
 
+import com.example.contactsproject.dto.UserDTO;
 import com.example.contactsproject.entity.Users;
 import com.example.contactsproject.repository.UsersRepository;
-import com.example.contactsproject.service.UsersService;
+import com.example.contactsproject.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class UsersServiceImpl implements UsersService{
+public class UsersServiceImpl {
 
     private final UsersRepository usersRepository;
 
-    @Override
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
+    private UserDTO convertToUserDTO(Users user) {
+        return new UserDTO(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail());
     }
 
-    @Override
-    public Users getUserById(Long id) {
-        return usersRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User doesn't exist"));
+    public List<UserDTO> getAll() {
+        return usersRepository.findAll().stream().map(this::convertToUserDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public Users saveUser(Users user) {
+    public UserDTO getByUid(UUID uid) {
+        return convertToUserDTO(usersRepository.findByUid(uid));
+    }
+
+    public Users save(Users user) {
+        user.setUid(UUID.randomUUID());
         return usersRepository.save(user);
     }
 
-    @Override
-    public Users updateUser(Users user) {
+    public Users update(Users user) {
         return usersRepository.save(user);
     }
 
-    @Override
-    public void deleteUserById(Long id) {
-        usersRepository.deleteById(id);
+    @Transactional
+    public void deleteByUid(UUID uid) {
+        usersRepository.deleteByUid(uid);
     }
 }

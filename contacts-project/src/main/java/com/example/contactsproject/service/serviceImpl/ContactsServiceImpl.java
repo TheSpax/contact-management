@@ -2,41 +2,44 @@ package com.example.contactsproject.service.serviceImpl;
 
 import com.example.contactsproject.entity.Contacts;
 import com.example.contactsproject.repository.ContactsRepository;
-import com.example.contactsproject.service.ContactsService;
+import com.example.contactsproject.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ContactsServiceImpl implements ContactsService {
+public class ContactsServiceImpl implements GenericService<Contacts> {
 
     private final ContactsRepository contactsRepository;
 
     @Override
-    public List<Contacts> getAllContacts() {
+    public List<Contacts> getAll() {
         return contactsRepository.findAll();
     }
 
     @Override
-    public Contacts getContactById(Long id) {
-        return contactsRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Contact doesn't exist"));
+    public Contacts getByUid(UUID uid) {
+        return contactsRepository.findByUid(uid);
     }
 
     @Override
-    public Contacts saveContact(Contacts contact) {
+    public Contacts save(Contacts contact) {
+        contact.setUid(UUID.randomUUID());
         return contactsRepository.save(contact);
     }
 
     @Override
-    public Contacts updateContact(Contacts contact) {
+    public Contacts update(Contacts contact) {
         return contactsRepository.save(contact);
     }
 
+    @Transactional
     @Override
-    public void deleteContactById(Long id) {
-        contactsRepository.deleteById(id);
+    public void deleteByUid(UUID uid) {
+        contactsRepository.deleteByUid(uid);
     }
 }
