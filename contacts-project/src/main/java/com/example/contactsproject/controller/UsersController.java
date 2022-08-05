@@ -1,7 +1,8 @@
 package com.example.contactsproject.controller;
 
+import com.example.contactsproject.dto.UserDTO;
 import com.example.contactsproject.entity.Users;
-import com.example.contactsproject.service.GenericService;
+import com.example.contactsproject.service.serviceImpl.UsersServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +15,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UsersController {
 
-    private final GenericService<Users> usersService;
+    private final UsersServiceImpl usersService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Users>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(usersService.getAll());
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<Users> getUserByUid(@PathVariable UUID uid) {
+    public ResponseEntity<UserDTO> getUserByUid(@PathVariable UUID uid) {
         return ResponseEntity.ok(usersService.getByUid(uid));
     }
 

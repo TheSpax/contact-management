@@ -1,5 +1,6 @@
 package com.example.contactsproject.service.serviceImpl;
 
+import com.example.contactsproject.dto.UserDTO;
 import com.example.contactsproject.entity.Users;
 import com.example.contactsproject.repository.UsersRepository;
 import com.example.contactsproject.service.GenericService;
@@ -9,36 +10,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UsersServiceImpl implements GenericService<Users> {
+public class UsersServiceImpl {
 
     private final UsersRepository usersRepository;
 
-    @Override
-    public List<Users> getAll() {
-        return usersRepository.findAll();
+    private UserDTO convertToUserDTO(Users user) {
+        return new UserDTO(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail());
     }
 
-    @Override
-    public Users getByUid(UUID uid) {
-        return usersRepository.findByUid(uid);
+    public List<UserDTO> getAll() {
+        return usersRepository.findAll().stream().map(this::convertToUserDTO).collect(Collectors.toList());
     }
 
-    @Override
+    public UserDTO getByUid(UUID uid) {
+        return convertToUserDTO(usersRepository.findByUid(uid));
+    }
+
     public Users save(Users user) {
         user.setUid(UUID.randomUUID());
         return usersRepository.save(user);
     }
 
-    @Override
     public Users update(Users user) {
         return usersRepository.save(user);
     }
 
     @Transactional
-    @Override
     public void deleteByUid(UUID uid) {
         usersRepository.deleteByUid(uid);
     }
