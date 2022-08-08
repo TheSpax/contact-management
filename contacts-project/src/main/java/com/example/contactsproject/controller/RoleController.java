@@ -1,7 +1,7 @@
 package com.example.contactsproject.controller;
 
 import com.example.contactsproject.entity.Role;
-import com.example.contactsproject.service.GenericService;
+import com.example.contactsproject.service.serviceImpl.RoleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoleController {
 
-    private final GenericService<Role> roleService;
+    private final RoleServiceImpl roleService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Role>> getAllRoles() {
@@ -27,7 +27,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<Role> saveUser(@RequestBody Role role) {
+    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         return ResponseEntity.ok(roleService.save(role));
     }
 

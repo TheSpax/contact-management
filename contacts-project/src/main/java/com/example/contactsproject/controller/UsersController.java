@@ -1,6 +1,8 @@
 package com.example.contactsproject.controller;
 
-import com.example.contactsproject.dto.UserDTO;
+import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
+import com.example.contactsproject.controller.dto.user.UserRequestDTO;
+import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.Users;
 import com.example.contactsproject.service.serviceImpl.UsersServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,18 +20,24 @@ public class UsersController {
     private final UsersServiceImpl usersService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(usersService.getAll());
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<UserDTO> getUserByUid(@PathVariable UUID uid) {
+    public ResponseEntity<Users> getUserByUid(@PathVariable UUID uid) {
         return ResponseEntity.ok(usersService.getByUid(uid));
     }
 
-    @PostMapping
-    public ResponseEntity<Users> saveUser(@RequestBody Users user) {
-        return ResponseEntity.ok(usersService.save(user));
+    @GetMapping("/{uid}/contacts")
+    public List<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid) {
+        return usersService.getAllContactsByUserUid(uid);
+    }
+
+    @PostMapping()
+    public ResponseEntity saveUser(@RequestBody UserRequestDTO userRequestDTO) {
+        usersService.save(userRequestDTO);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

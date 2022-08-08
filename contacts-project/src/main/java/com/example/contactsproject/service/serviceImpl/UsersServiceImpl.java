@@ -1,38 +1,40 @@
 package com.example.contactsproject.service.serviceImpl;
 
-import com.example.contactsproject.dto.UserDTO;
+import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
+import com.example.contactsproject.controller.dto.user.UserRequestDTO;
+import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.Users;
+import com.example.contactsproject.repository.ContactsRepository;
 import com.example.contactsproject.repository.UsersRepository;
-import com.example.contactsproject.service.GenericService;
+import com.example.contactsproject.service.mappers.ContactsMapper;
+import com.example.contactsproject.service.mappers.UsersMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl {
 
     private final UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+    private final ContactsMapper contactsMapper;
+    private final ContactsRepository contactsRepository;
 
-    private UserDTO convertToUserDTO(Users user) {
-        return new UserDTO(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail());
+    public List<UserResponseDTO> getAll() {
+        return usersMapper.mapAllUsersToUserDTO(usersRepository.findAll());
     }
 
-    public List<UserDTO> getAll() {
-        return usersRepository.findAll().stream().map(this::convertToUserDTO).collect(Collectors.toList());
+    public Users getByUid(UUID uid) {
+        return usersRepository.findByUid(uid);
     }
 
-    public UserDTO getByUid(UUID uid) {
-        return convertToUserDTO(usersRepository.findByUid(uid));
-    }
-
-    public Users save(Users user) {
-        user.setUid(UUID.randomUUID());
-        return usersRepository.save(user);
+    public void save(UserRequestDTO userRequestDTO) {
+        Users user = usersMapper.mapUserFromUserDTO(userRequestDTO);
+        usersRepository.save(user);
     }
 
     public Users update(Users user) {
@@ -43,4 +45,9 @@ public class UsersServiceImpl {
     public void deleteByUid(UUID uid) {
         usersRepository.deleteByUid(uid);
     }
+
+    public List<ContactResponseDTO> getAllContactsByUserUid(UUID uid) {
+        return contactsMapper.mapAllContactsToContactDTO(contactsRepository.findAllByUser_Uid(uid));
+    }
+
 }
