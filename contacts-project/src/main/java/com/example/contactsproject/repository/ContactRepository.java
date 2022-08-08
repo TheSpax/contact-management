@@ -1,17 +1,20 @@
 package com.example.contactsproject.repository;
 
-import com.example.contactsproject.entity.Role;
+import com.example.contactsproject.entity.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface ContactRepository extends JpaRepository<Contact, Long> {
 
-    Optional<Role> findByUid(UUID uid);
+    Optional<Contact> findByUid(UUID uid);
 
     void deleteByUid(UUID uid);
+
+    List<Contact> findAllByUser_Uid(UUID uid);
 
 }
