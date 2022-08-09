@@ -1,4 +1,4 @@
-package com.example.contactsproject.repository;
+package com.example.contactsproject.service.serviceImpl.repository;
 
 import com.example.contactsproject.entity.Contact;
 import org.springframework.data.domain.Page;

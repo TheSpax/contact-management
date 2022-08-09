@@ -3,7 +3,7 @@ package com.example.contactsproject.service.serviceImpl;
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
 import com.example.contactsproject.entity.Role;
-import com.example.contactsproject.repository.RoleRepository;
+import com.example.contactsproject.service.serviceImpl.repository.RoleRepository;
 import com.example.contactsproject.service.mappers.RoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

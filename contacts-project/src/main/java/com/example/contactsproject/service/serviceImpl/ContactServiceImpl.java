@@ -5,19 +5,17 @@ import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.entity.ContactType;
 import com.example.contactsproject.entity.Contact;
 import com.example.contactsproject.entity.User;
-import com.example.contactsproject.repository.ContactTypeRepository;
-import com.example.contactsproject.repository.ContactRepository;
-import com.example.contactsproject.repository.UserRepository;
+import com.example.contactsproject.service.serviceImpl.repository.ContactTypeRepository;
+import com.example.contactsproject.service.serviceImpl.repository.ContactRepository;
+import com.example.contactsproject.service.serviceImpl.repository.UserRepository;
 import com.example.contactsproject.service.mappers.ContactMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.UUID;
 
 @Service

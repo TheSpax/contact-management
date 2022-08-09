@@ -1,4 +1,4 @@
-package com.example.contactsproject.repository;
+package com.example.contactsproject.service.serviceImpl.repository;
 
 import com.example.contactsproject.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
