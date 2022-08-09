@@ -1,43 +1,48 @@
 package com.example.contactsproject.controller;
 
+import com.example.contactsproject.controller.dto.contactType.ContactTypeRequestDTO;
+import com.example.contactsproject.controller.dto.contactType.ContactTypeResponseDTO;
 import com.example.contactsproject.entity.ContactType;
-import com.example.contactsproject.service.GenericService;
+import com.example.contactsproject.service.serviceImpl.ContactTypeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/contactTypes/v1")
+@RequestMapping("/contactTypes")
 @RequiredArgsConstructor
 public class ContactTypeController {
 
-    private final GenericService<ContactType> contactTypeService;
+    private final ContactTypeServiceImpl contactTypeService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ContactType>> getAllUsers() {
+    @GetMapping
+    public ResponseEntity<List<ContactTypeResponseDTO>> getAllContactTypes() {
         return ResponseEntity.ok(contactTypeService.getAll());
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<ContactType> getUserByUid(@PathVariable UUID uid) {
+    public ResponseEntity<ContactTypeResponseDTO> getContactTypeByUid(@PathVariable UUID uid) {
         return ResponseEntity.ok(contactTypeService.getByUid(uid));
     }
 
     @PostMapping
-    public ResponseEntity<ContactType> saveUser(@RequestBody ContactType contactType) {
-        return ResponseEntity.ok(contactTypeService.save(contactType));
+    public ResponseEntity saveContactType(@Valid @RequestBody ContactTypeRequestDTO contactTypeRequestDTO) {
+        contactTypeService.save(contactTypeRequestDTO);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<ContactType> updateUser(@RequestBody ContactType contactType) {
-        return ResponseEntity.ok(contactTypeService.update(contactType));
+    @PutMapping("/{uid}")
+    public ResponseEntity updateContactType(@PathVariable UUID uid, @Valid @RequestBody ContactTypeRequestDTO contactTypeRequestDTO) {
+        contactTypeService.update(uid, contactTypeRequestDTO);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{uid}")
-    public void deleteUserById(@PathVariable UUID uid) {
+    public void deleteContactTypeById(@PathVariable UUID uid) {
         contactTypeService.deleteByUid(uid);
     }
 

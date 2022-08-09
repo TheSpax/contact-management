@@ -1,44 +1,44 @@
 package com.example.contactsproject.service.serviceImpl;
 
+import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
+import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
 import com.example.contactsproject.entity.Role;
-import com.example.contactsproject.repository.RoleRepository;
-import com.example.contactsproject.service.GenericService;
+import com.example.contactsproject.service.serviceImpl.repository.RoleRepository;
+import com.example.contactsproject.service.mappers.RoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements GenericService<Role> {
+public class RoleServiceImpl {
 
     private final RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
 
-    @Override
-    public List<Role> getAll() {
-        return roleRepository.findAll();
+    public List<RoleResponseDTO> getAll() {
+        return roleMapper.mapAllRolesToRoleDTO(roleRepository.findAll());
     }
 
-    @Override
-    public Role getByUid(UUID uid) {
-        return roleRepository.findByUid(uid);
+    public RoleResponseDTO getByUid(UUID uid) {
+        return roleMapper.mapRoleToRoleDTO(roleRepository.findByUid(uid).orElseThrow(() -> new EntityNotFoundException("Role not found")));
     }
 
-    @Override
-    public Role save(Role role) {
-        role.setUid(UUID.randomUUID());
-        return roleRepository.save(role);
+    public void save(RoleRequestDTO roleRequestDTO) {
+        Role role = roleMapper.mapRoleFromRoleDTO(roleRequestDTO);
+        roleRepository.save(role);
     }
 
-    @Override
-    public Role update(Role role) {
-        return roleRepository.save(role);
+    public void update(UUID uid, RoleRequestDTO roleRequestDTO) {
+        Role role = roleMapper.mapRoleFromRoleDTOUpdate(uid, roleRequestDTO);
+        roleRepository.save(role);
     }
 
     @Transactional
-    @Override
     public void deleteByUid(UUID uid) {
         roleRepository.deleteByUid(uid);
     }
