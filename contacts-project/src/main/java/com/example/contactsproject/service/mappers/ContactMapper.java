@@ -2,10 +2,13 @@ package com.example.contactsproject.service.mappers;
 
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
+import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.Contact;
+import com.example.contactsproject.entity.User;
 import com.example.contactsproject.repository.ContactRepository;
 import com.example.contactsproject.repository.ContactTypeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -61,6 +64,10 @@ public class ContactMapper {
         contact.setPhoneNumber(contactRequestDTO.getPhoneNumber());
         contact.setContactType(contactTypeRepository.findByUid(contactRequestDTO.getContactTypeUid()).orElseThrow(() -> new EntityNotFoundException("ContactType not found")));
         return contact;
+    }
+
+    public Page<ContactResponseDTO> mapContactsToPageContactsDTO(Page<Contact> contacts) {
+        return contacts.map(this::mapContactToContactDTO);
     }
 
 }

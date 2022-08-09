@@ -9,6 +9,9 @@ import com.example.contactsproject.repository.UserRepository;
 import com.example.contactsproject.service.mappers.ContactMapper;
 import com.example.contactsproject.service.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +28,9 @@ public class UserServiceImpl {
     private final ContactMapper contactMapper;
     private final ContactRepository contactRepository;
 
-    public List<UserResponseDTO> getAll() {
-        return userMapper.mapAllUsersToUserDTO(userRepository.findAll());
+    public Page<UserResponseDTO> getAll(Pageable pageable) {
+        return userMapper.mapUsersToPageUsersDTO(userRepository.findAll(pageable));
+
     }
 
     public UserResponseDTO getByUid(UUID uid) {
@@ -48,8 +52,8 @@ public class UserServiceImpl {
         userRepository.deleteByUid(uid);
     }
 
-    public List<ContactResponseDTO> getAllContactsByUserUid(UUID uid) {
-        return contactMapper.mapAllContactsToContactDTO(contactRepository.findAllByUser_Uid(uid));
+    public Page<ContactResponseDTO> getAllContactsByUserUid(UUID uid, Pageable pageable) {
+        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findAllByUser_Uid(uid, pageable));
     }
 
 }

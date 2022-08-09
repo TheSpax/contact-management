@@ -10,6 +10,9 @@ import com.example.contactsproject.repository.ContactRepository;
 import com.example.contactsproject.repository.UserRepository;
 import com.example.contactsproject.service.mappers.ContactMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +29,8 @@ public class ContactServiceImpl {
     private final UserRepository userRepository;
     private final ContactTypeRepository contactTypeRepository;
 
-    public List<ContactResponseDTO> getAll() {
-        return contactMapper.mapAllContactsToContactDTO(contactRepository.findAll());
+    public Page<ContactResponseDTO> getAll(Pageable pageable) {
+        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findAll(pageable));
     }
 
     public ContactResponseDTO getByUid(UUID uid) {

@@ -3,9 +3,10 @@ package com.example.contactsproject.controller;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
-import com.example.contactsproject.entity.User;
 import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +15,15 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users/v1")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAll());
+    @GetMapping
+    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
+        return ResponseEntity.ok(userService.getAll(pageable));
     }
 
     @GetMapping("/{uid}")
@@ -31,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/{uid}/contacts")
-    public List<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid) {
-        return userService.getAllContactsByUserUid(uid);
+    public Page<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid, Pageable pageable) {
+        return userService.getAllContactsByUserUid(uid, pageable);
     }
 
     @PostMapping()

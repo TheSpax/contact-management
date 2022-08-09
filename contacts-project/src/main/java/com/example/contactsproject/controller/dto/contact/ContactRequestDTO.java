@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -22,7 +23,7 @@ public class ContactRequestDTO {
     private String email;
     @NotBlank(message = "phoneNumber must not be blank!")
     private String phoneNumber;
-    @NotBlank(message = "contactTypeUid must not be blank!")
+    @NotNull(message = "contactTypeUid must not be blank!")
     private UUID contactTypeUid;
 
 }

@@ -16,6 +16,5 @@ public class UserResponseDTO {
     private String lastName;
     private String username;
     private String email;
-    private List<ContactResponseDTO> contactsList;
 
 }

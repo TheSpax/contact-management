@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class Role {
     @Column(name = "type")
     private String type;
 
-    @NotBlank(message = "uid must not be null")
+    @NotNull(message = "uid must not be null")
     @Column(name = "uid", unique = true, updatable = false)
     private UUID uid;
 

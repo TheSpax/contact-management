@@ -2,9 +2,12 @@ package com.example.contactsproject.service.mappers;
 
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
+import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.Role;
+import com.example.contactsproject.entity.User;
 import com.example.contactsproject.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;

@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/roles/v1")
+@RequestMapping("/roles")
 @RequiredArgsConstructor
 public class RoleController {
 
     private final RoleServiceImpl roleService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<RoleResponseDTO>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAll());
     }

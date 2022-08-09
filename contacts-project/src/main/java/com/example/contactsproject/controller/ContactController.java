@@ -2,9 +2,10 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
-import com.example.contactsproject.entity.Contact;
 import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +14,15 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/contacts/v1")
+@RequestMapping("/contacts")
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactServiceImpl contactsService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ContactResponseDTO>> getAllContacts() {
-        return ResponseEntity.ok(contactsService.getAll());
+    @GetMapping
+    public ResponseEntity<Page<ContactResponseDTO>> getAllContacts(Pageable pageable) {
+        return ResponseEntity.ok(contactsService.getAll(pageable));
     }
 
     @GetMapping("/{uid}")

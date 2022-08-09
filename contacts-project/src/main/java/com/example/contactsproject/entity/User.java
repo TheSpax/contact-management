@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime timeUpdated;
 
-    @NotBlank(message = "uid must not be blank")
+    @NotNull(message = "uid must not be blank")
     @Column(name = "uid", unique = true, updatable = false)
     private UUID uid;
 

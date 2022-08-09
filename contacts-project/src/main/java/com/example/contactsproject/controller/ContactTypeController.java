@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/contactTypes/v1")
+@RequestMapping("/contactTypes")
 @RequiredArgsConstructor
 public class ContactTypeController {
 
     private final ContactTypeServiceImpl contactTypeService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<ContactTypeResponseDTO>> getAllContactTypes() {
         return ResponseEntity.ok(contactTypeService.getAll());
     }

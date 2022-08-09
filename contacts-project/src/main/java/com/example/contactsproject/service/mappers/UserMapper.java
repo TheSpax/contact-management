@@ -7,6 +7,7 @@ import com.example.contactsproject.repository.ContactRepository;
 import com.example.contactsproject.repository.RoleRepository;
 import com.example.contactsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -51,7 +52,6 @@ public class UserMapper {
         userResponseDTO.setUsername(user.getUsername());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setUid(user.getUid());
-        userResponseDTO.setContactsList(contactMapper.mapAllContactsToContactDTO(contactRepository.findAllByUser_Uid(user.getUid())));
         return userResponseDTO;
     }
 
@@ -64,6 +64,10 @@ public class UserMapper {
         user.setPassword(userRequestDTO.getPassword());
         user.setRole(roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found")));
         return user;
+    }
+
+    public Page<UserResponseDTO> mapUsersToPageUsersDTO(Page<User> users) {
+        return users.map(this::mapUserToUserDTO);
     }
 
 }
