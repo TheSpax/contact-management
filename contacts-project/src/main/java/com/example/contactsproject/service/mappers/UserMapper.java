@@ -3,11 +3,12 @@ package com.example.contactsproject.service.mappers;
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.User;
-import com.example.contactsproject.service.serviceImpl.repository.ContactRepository;
-import com.example.contactsproject.service.serviceImpl.repository.RoleRepository;
-import com.example.contactsproject.service.serviceImpl.repository.UserRepository;
+import com.example.contactsproject.repository.ContactRepository;
+import com.example.contactsproject.repository.RoleRepository;
+import com.example.contactsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,6 +24,7 @@ public class UserMapper {
     private final ContactMapper contactMapper;
     public final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserResponseDTO> mapAllUsersToUserDTO(List<User> users) {
         List<UserResponseDTO> dtoList = new ArrayList<>();

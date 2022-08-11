@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl.repository;
+package com.example.contactsproject.repository;
 
 import com.example.contactsproject.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +9,8 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    User findByUsername(String username);
 
     Optional<User> findByUid(UUID uid);
 
