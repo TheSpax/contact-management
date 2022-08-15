@@ -15,7 +15,6 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "contacts")
-//jednina za nazive entitija
 public class Contact {
 
     @Id

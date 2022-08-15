@@ -3,7 +3,6 @@ package com.example.contactsproject.service.mappers;
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.entity.User;
-import com.example.contactsproject.repository.ContactRepository;
 import com.example.contactsproject.repository.RoleRepository;
 import com.example.contactsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +19,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserMapper {
 
-    private final ContactRepository contactRepository;
-    private final ContactMapper contactMapper;
+//    private final ContactRepository contactRepository;
+//    private final ContactMapper contactMapper;
     public final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<UserResponseDTO> mapAllUsersToUserDTO(List<User> users) {
-        List<UserResponseDTO> dtoList = new ArrayList<>();
-        for(User u : users) {
-            UserResponseDTO userResponseDTO = mapUserToUserDTO(u);
-            dtoList.add(userResponseDTO);
-        }
-        return dtoList;
-    }
+//    public List<UserResponseDTO> mapAllUsersToUserDTO(List<User> users) {
+//        List<UserResponseDTO> dtoList = new ArrayList<>();
+//        for(User u : users) {
+//            UserResponseDTO userResponseDTO = mapUserToUserDTO(u);
+//            dtoList.add(userResponseDTO);
+//        }
+//        return dtoList;
+//    }
 
     public User mapUserFromUserDTO(UserRequestDTO userRequestDTO) {
         User user = new User();
@@ -42,7 +41,7 @@ public class UserMapper {
         user.setLastName(userRequestDTO.getLastName());
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(userRequestDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         user.setRole(roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found")));
         return user;
     }
@@ -63,7 +62,7 @@ public class UserMapper {
         user.setLastName(userRequestDTO.getLastName());
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(userRequestDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         user.setRole(roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found")));
         return user;
     }

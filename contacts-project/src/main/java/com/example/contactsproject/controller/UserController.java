@@ -11,30 +11,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
         return ResponseEntity.ok(userService.getAll(pageable));
     }
 
-    @GetMapping("/{uid}")
-    public ResponseEntity<UserResponseDTO> getUserByUid(@PathVariable UUID uid) {
-        return ResponseEntity.ok(userService.getByUid(uid));
+    @GetMapping("/{userUid}")
+    public ResponseEntity<UserResponseDTO> getUserByUid(@PathVariable UUID userUid) {
+        return ResponseEntity.ok(userService.getByUid(userUid));
     }
 
-    @GetMapping("/{uid}/contacts")
-    public Page<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid, Pageable pageable) {
-        return userService.getAllContactsByUserUid(uid, pageable);
-    }
+//    @GetMapping("/{uid}/contacts")
+//    public Page<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid, Pageable pageable) {
+//        return userService.getAllContactsByUserUid(uid, pageable);
+//    }
+
+//    @GetMapping("/{uid}/contacts/{field}")
+//    public Page<ContactResponseDTO> getContactsByUserUidWithSearch(@PathVariable UUID uid, @PathVariable String field, Pageable pageable) {
+//        return userService.getAllByUserUidAndField(uid, field, pageable);
+//    }
 
     @PostMapping()
     public ResponseEntity saveUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
@@ -48,9 +52,9 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{uid}")
-    public void deleteUserByUid(@PathVariable UUID uid) {
-        userService.deleteByUid(uid);
+    @DeleteMapping("/{userUid}")
+    public void deleteUserByUid(@PathVariable UUID userUid) {
+        userService.deleteByUid(userUid);
     }
 
 }

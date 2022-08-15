@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
@@ -34,6 +35,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
+        Map<String, String> messageBody = new HashMap<>();
+        messageBody.put("message", ex.getMessage());
+        return new ResponseEntity<>(messageBody, HttpStatus.NOT_FOUND);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
@@ -42,7 +51,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.badRequest().body("Constraint violated: " + errorMessages);
+        return ResponseEntity.badRequest().body(errorMessages);
     }
 
 }

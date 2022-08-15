@@ -21,14 +21,14 @@ public class ContactMapper {
     private final ContactRepository contactRepository;
     private final ContactTypeRepository contactTypeRepository;
 
-    public List<ContactResponseDTO> mapAllContactsToContactDTO(List<Contact> contacts) {
-        List<ContactResponseDTO> dtoList = new ArrayList<>();
-        for(Contact c : contacts) {
-            ContactResponseDTO contactResponseDTO = mapContactToContactDTO(c);
-            dtoList.add(contactResponseDTO);
-        }
-        return dtoList;
-    }
+//    public List<ContactResponseDTO> mapAllContactsToContactDTO(List<Contact> contacts) {
+//        List<ContactResponseDTO> dtoList = new ArrayList<>();
+//        for(Contact c : contacts) {
+//            ContactResponseDTO contactResponseDTO = mapContactToContactDTO(c);
+//            dtoList.add(contactResponseDTO);
+//        }
+//        return dtoList;
+//    }
 
     public ContactResponseDTO mapContactToContactDTO(Contact c) {
         ContactResponseDTO contactResponseDTO = new ContactResponseDTO();
