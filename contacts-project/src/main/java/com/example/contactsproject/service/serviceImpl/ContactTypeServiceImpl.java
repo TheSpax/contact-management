@@ -3,7 +3,7 @@ package com.example.contactsproject.service.serviceImpl;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeRequestDTO;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeResponseDTO;
 import com.example.contactsproject.entity.ContactType;
-import com.example.contactsproject.service.serviceImpl.repository.ContactTypeRepository;
+import com.example.contactsproject.repository.ContactTypeRepository;
 import com.example.contactsproject.service.mappers.ContactTypeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

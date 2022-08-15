@@ -1,6 +1,6 @@
 package com.example.contactsproject.entity;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -49,6 +50,9 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Contact> contacts;
 
     @Column(name = "time_created", updatable = false)
     @CreationTimestamp

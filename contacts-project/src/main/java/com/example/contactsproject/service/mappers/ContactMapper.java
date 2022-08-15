@@ -3,8 +3,8 @@ package com.example.contactsproject.service.mappers;
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.entity.Contact;
-import com.example.contactsproject.service.serviceImpl.repository.ContactRepository;
-import com.example.contactsproject.service.serviceImpl.repository.ContactTypeRepository;
+import com.example.contactsproject.repository.ContactRepository;
+import com.example.contactsproject.repository.ContactTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -21,14 +21,14 @@ public class ContactMapper {
     private final ContactRepository contactRepository;
     private final ContactTypeRepository contactTypeRepository;
 
-    public List<ContactResponseDTO> mapAllContactsToContactDTO(List<Contact> contacts) {
-        List<ContactResponseDTO> dtoList = new ArrayList<>();
-        for(Contact c : contacts) {
-            ContactResponseDTO contactResponseDTO = mapContactToContactDTO(c);
-            dtoList.add(contactResponseDTO);
-        }
-        return dtoList;
-    }
+//    public List<ContactResponseDTO> mapAllContactsToContactDTO(List<Contact> contacts) {
+//        List<ContactResponseDTO> dtoList = new ArrayList<>();
+//        for(Contact c : contacts) {
+//            ContactResponseDTO contactResponseDTO = mapContactToContactDTO(c);
+//            dtoList.add(contactResponseDTO);
+//        }
+//        return dtoList;
+//    }
 
     public ContactResponseDTO mapContactToContactDTO(Contact c) {
         ContactResponseDTO contactResponseDTO = new ContactResponseDTO();

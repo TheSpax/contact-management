@@ -2,7 +2,6 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.contactType.ContactTypeRequestDTO;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeResponseDTO;
-import com.example.contactsproject.entity.ContactType;
 import com.example.contactsproject.service.serviceImpl.ContactTypeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/contactTypes")
+@RequestMapping("/admin/contactTypes")
 @RequiredArgsConstructor
 public class ContactTypeController {
 

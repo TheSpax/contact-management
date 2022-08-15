@@ -2,7 +2,6 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
-import com.example.contactsproject.entity.Role;
 import com.example.contactsproject.service.serviceImpl.RoleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/admin/roles")
 @RequiredArgsConstructor
 public class RoleController {
 
