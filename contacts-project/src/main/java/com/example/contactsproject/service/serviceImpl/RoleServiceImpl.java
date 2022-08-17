@@ -20,22 +20,32 @@ public class RoleServiceImpl {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
 
+    @Transactional(readOnly = true)
     public List<RoleResponseDTO> getAll() {
         return roleMapper.mapAllRolesToRoleDTO(roleRepository.findAll());
     }
 
-    public RoleResponseDTO getByUid(UUID uid) {
-        return roleMapper.mapRoleToRoleDTO(roleRepository.findByUid(uid).orElseThrow(() -> new EntityNotFoundException("Role not found")));
+    @Transactional(readOnly = true)
+    public RoleResponseDTO getByUid(UUID roleUid) {
+        return roleMapper.mapRoleToRoleDTO(this.getRole(roleUid));
     }
 
+    @Transactional
     public void save(RoleRequestDTO roleRequestDTO) {
         Role role = roleMapper.mapRoleFromRoleDTO(roleRequestDTO);
         roleRepository.save(role);
     }
 
-    public void update(UUID uid, RoleRequestDTO roleRequestDTO) {
-        Role role = roleMapper.mapRoleFromRoleDTOUpdate(uid, roleRequestDTO);
+    @Transactional
+    public void update(UUID roleUid, RoleRequestDTO roleRequestDTO) {
+        Role role = this.getRole(roleUid);
+        role = roleMapper.mapRoleFromRoleDTOUpdate(role, roleRequestDTO);
         roleRepository.save(role);
+    }
+
+    @Transactional(readOnly = true)
+    private Role getRole(UUID roleUid) {
+        return roleRepository.findByUid(roleUid).orElseThrow(() -> new EntityNotFoundException("Role not found"));
     }
 
     @Transactional

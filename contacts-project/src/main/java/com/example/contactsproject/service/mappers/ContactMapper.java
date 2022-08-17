@@ -3,32 +3,16 @@ package com.example.contactsproject.service.mappers;
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.entity.Contact;
-import com.example.contactsproject.repository.ContactRepository;
-import com.example.contactsproject.repository.ContactTypeRepository;
+import com.example.contactsproject.entity.ContactType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class ContactMapper {
-
-    private final ContactRepository contactRepository;
-    private final ContactTypeRepository contactTypeRepository;
-
-//    public List<ContactResponseDTO> mapAllContactsToContactDTO(List<Contact> contacts) {
-//        List<ContactResponseDTO> dtoList = new ArrayList<>();
-//        for(Contact c : contacts) {
-//            ContactResponseDTO contactResponseDTO = mapContactToContactDTO(c);
-//            dtoList.add(contactResponseDTO);
-//        }
-//        return dtoList;
-//    }
 
     public ContactResponseDTO mapContactToContactDTO(Contact c) {
         ContactResponseDTO contactResponseDTO = new ContactResponseDTO();
@@ -47,21 +31,21 @@ public class ContactMapper {
     public Contact mapContactFromContactDTO(ContactRequestDTO contactRequestDTO) {
         Contact contact = new Contact();
         contact.setUid(UUID.randomUUID());
-        contact.setFirstName(contactRequestDTO.getFirstName());
-        contact.setLastName(contactRequestDTO.getLastName());
-        contact.setEmail(contactRequestDTO.getEmail());
-        contact.setPhoneNumber(contactRequestDTO.getPhoneNumber());
+        mapBaseContact(contactRequestDTO, contact);
         return contact;
     }
 
-    public Contact mapContactFromDTOUpdate(UUID uid, ContactRequestDTO contactRequestDTO) {
-        Contact contact = contactRepository.findByUid(uid).orElseThrow(() -> new EntityNotFoundException("Contact not found"));
+    public Contact mapContactFromDTOUpdate(Contact contact, ContactRequestDTO contactRequestDTO, ContactType contactType) {
+        mapBaseContact(contactRequestDTO, contact);
+        contact.setContactType(contactType);
+        return contact;
+    }
+
+    private static void mapBaseContact(ContactRequestDTO contactRequestDTO, Contact contact) {
         contact.setFirstName(contactRequestDTO.getFirstName());
         contact.setLastName(contactRequestDTO.getLastName());
         contact.setEmail(contactRequestDTO.getEmail());
         contact.setPhoneNumber(contactRequestDTO.getPhoneNumber());
-        contact.setContactType(contactTypeRepository.findByUid(contactRequestDTO.getContactTypeUid()).orElseThrow(() -> new EntityNotFoundException("ContactType not found")));
-        return contact;
     }
 
     public Page<ContactResponseDTO> mapContactsToPageContactsDTO(Page<Contact> contacts) {

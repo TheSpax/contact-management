@@ -30,16 +30,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getByUid(userUid));
     }
 
-//    @GetMapping("/{uid}/contacts")
-//    public Page<ContactResponseDTO> getContactsByUserUid(@PathVariable UUID uid, Pageable pageable) {
-//        return userService.getAllContactsByUserUid(uid, pageable);
-//    }
-
-//    @GetMapping("/{uid}/contacts/{field}")
-//    public Page<ContactResponseDTO> getContactsByUserUidWithSearch(@PathVariable UUID uid, @PathVariable String field, Pageable pageable) {
-//        return userService.getAllByUserUidAndField(uid, field, pageable);
-//    }
-
     @PostMapping()
     public ResponseEntity saveUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         userService.save(userRequestDTO);
