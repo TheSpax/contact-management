@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "contact_type")
+@Table(name = "contact_types")
 public class ContactType {
 
     @Id

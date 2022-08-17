@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,15 +19,20 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     void deleteByUid(UUID uid);
 
-//    List<Contact> findAllByUser_Uid(UUID uid);
-
     Page<Contact> findAllByUser_Uid(UUID uid, Pageable pageable);
 
     @Query(value = "SELECT * FROM contacts JOIN users ON contacts.user_id = users.id " +
-            "WHERE users.uid = :uid AND (contacts.first_name LIKE CONCAT('%', :field, '%') " +
+            "WHERE users.uid = :userUid AND (contacts.first_name LIKE CONCAT('%', :field, '%') " +
             "OR contacts.last_name LIKE CONCAT('%', :field, '%')" +
             "OR contacts.email LIKE CONCAT('%', :field, '%')" +
             "OR phone_number LIKE CONCAT('%', :field, '%'))", nativeQuery = true)
-    Page<Contact> findByFieldPassed(String field, UUID uid, Pageable pageable);
+    Page<Contact> findByFieldPassedAndUser(String field, UUID userUid, Pageable pageable);
+
+    @Query(value = "SELECT * FROM contacts " +
+            "WHERE (contacts.first_name LIKE CONCAT('%', :field, '%')" +
+            "OR contacts.last_name LIKE CONCAT('%', :field, '%')" +
+            "OR contacts.email LIKE CONCAT('%', :field, '%')" +
+            "OR phone_number LIKE CONCAT('%', :field, '%'))", nativeQuery = true)
+    Page<Contact> findByField(String field, Pageable pageable);
 
 }

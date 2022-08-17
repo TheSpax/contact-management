@@ -2,47 +2,24 @@ package com.example.contactsproject.service.mappers;
 
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
+import com.example.contactsproject.entity.Role;
 import com.example.contactsproject.entity.User;
-import com.example.contactsproject.repository.RoleRepository;
-import com.example.contactsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
-
-//    private final ContactRepository contactRepository;
-//    private final ContactMapper contactMapper;
-    public final RoleRepository roleRepository;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-//    public List<UserResponseDTO> mapAllUsersToUserDTO(List<User> users) {
-//        List<UserResponseDTO> dtoList = new ArrayList<>();
-//        for(User u : users) {
-//            UserResponseDTO userResponseDTO = mapUserToUserDTO(u);
-//            dtoList.add(userResponseDTO);
-//        }
-//        return dtoList;
-//    }
-
-    public User mapUserFromUserDTO(UserRequestDTO userRequestDTO) {
+    public User mapUserFromUserDTO(UserRequestDTO userRequestDTO, Role role) {
         User user = new User();
         user.setUid(UUID.randomUUID());
-        user.setFirstName(userRequestDTO.getFirstName());
-        user.setLastName(userRequestDTO.getLastName());
-        user.setUsername(userRequestDTO.getUsername());
-        user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-        user.setRole(roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found")));
+        this.mapBaseUser(userRequestDTO, user, role);
         return user;
     }
 
@@ -56,15 +33,18 @@ public class UserMapper {
         return userResponseDTO;
     }
 
-    public User mapUserFromDTOUpdate(UUID uid, UserRequestDTO userRequestDTO) {
-        User user = userRepository.findByUid(uid).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public User mapUserFromDTOUpdate(User user, UserRequestDTO userRequestDTO, Role role) {
+        this.mapBaseUser(userRequestDTO, user, role);
+        return user;
+    }
+
+    private void mapBaseUser(UserRequestDTO userRequestDTO, User user, Role role) {
         user.setFirstName(userRequestDTO.getFirstName());
         user.setLastName(userRequestDTO.getLastName());
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-        user.setRole(roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found")));
-        return user;
+        user.setRole(role);
     }
 
     public Page<UserResponseDTO> mapUsersToPageUsersDTO(Page<User> users) {
