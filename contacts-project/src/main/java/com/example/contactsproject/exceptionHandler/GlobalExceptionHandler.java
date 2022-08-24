@@ -1,11 +1,11 @@
 package com.example.contactsproject.exceptionHandler;
 
+import com.example.contactsproject.controller.exceptions.FileEmptyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -53,6 +53,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
 
         return ResponseEntity.badRequest().body(errorMessages);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FileEmptyException.class)
+    public ResponseEntity handleFileEmptyException(FileEmptyException ex) {
+        Map<String, String> messageBody = new HashMap<>();
+        messageBody.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(messageBody);
     }
 
 }

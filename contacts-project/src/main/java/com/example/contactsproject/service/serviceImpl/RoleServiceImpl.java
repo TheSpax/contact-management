@@ -44,7 +44,7 @@ public class RoleServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    private Role getRole(UUID roleUid) {
+    public Role getRole(UUID roleUid) {
         return roleRepository.findByUid(roleUid).orElseThrow(() -> new EntityNotFoundException("Role not found"));
     }
 

@@ -2,8 +2,10 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
+import com.example.contactsproject.controller.exceptions.FileEmptyException;
 import com.example.contactsproject.entity.User;
 import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
+import com.example.contactsproject.service.serviceImpl.ContactsImportService;
 import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,8 @@ import java.util.UUID;
 public class ContactController {
 
     private final ContactServiceImpl contactsService;
+
+    private final ContactsImportService contactsImportService;
 
     private final UserServiceImpl userService;
 
@@ -49,15 +53,13 @@ public class ContactController {
 
     @PostMapping
     public ResponseEntity saveContact(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
-        User user = userService.getLoggedUser();
-        contactsService.saveByUser(user, contactRequestDTO);
+        contactsService.saveByUser(contactRequestDTO);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/import")
-    public ResponseEntity importContactsFromFile(@RequestParam("file") MultipartFile file) {
-        User user = userService.getLoggedUser();
-        return contactsService.importContactsFromFile(file, user);
+    public ResponseEntity importContactsFromFile(@RequestParam("file") MultipartFile file) throws FileEmptyException {
+        return contactsImportService.importContactsFromFile(file);
     }
 
     @PutMapping("/{contactUid}")
