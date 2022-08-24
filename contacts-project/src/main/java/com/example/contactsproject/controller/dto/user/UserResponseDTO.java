@@ -1,9 +1,9 @@
 package com.example.contactsproject.controller.dto.user;
 
-import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data

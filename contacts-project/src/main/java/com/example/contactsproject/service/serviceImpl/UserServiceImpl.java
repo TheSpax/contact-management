@@ -69,7 +69,7 @@ public class UserServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    private Role getRole(UserRequestDTO userRequestDTO) {
+    public Role getRole(UserRequestDTO userRequestDTO) {
         return roleRepository.findByUid(userRequestDTO.getRoleUid()).orElseThrow(() -> new EntityNotFoundException("Role not found"));
     }
 

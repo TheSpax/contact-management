@@ -1,6 +1,5 @@
 package com.example.contactsproject.controller;
 
-import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.service.serviceImpl.UserServiceImpl;

@@ -8,34 +8,28 @@ import com.example.contactsproject.entity.User;
 import com.example.contactsproject.repository.ContactRepository;
 import com.example.contactsproject.repository.ContactTypeRepository;
 import com.example.contactsproject.service.mappers.ContactMapper;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.hibernate.engine.query.ParameterRecognitionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ContactServiceImpl {
 
+    private Logger logger = LoggerFactory.getLogger(ContactServiceImpl.class);
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
     private final ContactTypeRepository contactTypeRepository;
+
+    private final UserServiceImpl userService;
 
     @Transactional(readOnly = true)
     public ContactResponseDTO getByUid(UUID contactUid, UUID userUid) {
@@ -67,7 +61,8 @@ public class ContactServiceImpl {
     }
 
     @Transactional
-    public void saveByUser(User user, ContactRequestDTO contactRequestDTO) {
+    public void saveByUser(ContactRequestDTO contactRequestDTO) {
+        User user = userService.getLoggedUser();
         ContactType contactType = getContactType(contactRequestDTO);
         Contact contact = contactMapper.mapContactFromContactDTO(contactRequestDTO);
         contact.setUser(user);
@@ -93,28 +88,6 @@ public class ContactServiceImpl {
     @Transactional(readOnly = true)
     public ContactType getContactType(ContactRequestDTO contactRequestDTO) {
         return contactTypeRepository.findByUid(contactRequestDTO.getContactTypeUid()).orElseThrow(() -> new EntityNotFoundException("Contact type not found"));
-    }
-
-    public ResponseEntity importContactsFromFile(MultipartFile file, User user) {
-        if(file.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            try(Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-                CsvToBean<ContactRequestDTO> csvToBean = new CsvToBeanBuilder(reader)
-                        .withType(ContactRequestDTO.class)
-                        .withIgnoreLeadingWhiteSpace(true)
-                        .withIgnoreEmptyLine(true)
-                        .build();
-                List<ContactRequestDTO> contacts = csvToBean.parse();
-                for (Object c : contacts) {
-                    saveByUser(user, (ContactRequestDTO) c);
-                }
-
-            } catch (Exception ex) {
-                return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
-            }
-        }
-        return ResponseEntity.ok().build();
     }
 
 }
