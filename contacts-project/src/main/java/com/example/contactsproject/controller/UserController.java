@@ -2,7 +2,9 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
+import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
 import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/users")
+@Tag(name = "User controller", description = "Methods for manipulating users. For admin only.")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements GlobalResponseDefinition {
 
     private final UserServiceImpl userService;
 

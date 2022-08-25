@@ -1,6 +1,7 @@
 package com.example.contactsproject.security;
 
 import com.example.contactsproject.security.userDetails.CustomUserDetailsService;
+import com.example.contactsproject.swagger.NoPopupBasicAuthEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class CustomSecurityConfiguration {
     private final CustomUserDetailsService customUserDetailsService;
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -24,8 +31,10 @@ public class CustomSecurityConfiguration {
                 .authorizeHttpRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
+                .antMatchers(SWAGGER_WHITELIST).permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .httpBasic().authenticationEntryPoint(new NoPopupBasicAuthEntryPoint());
 
         return httpSecurity.build();
     }
