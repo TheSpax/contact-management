@@ -3,10 +3,12 @@ package com.example.contactsproject.controller;
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.controller.exceptions.FileEmptyException;
+import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
 import com.example.contactsproject.entity.User;
 import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
 import com.example.contactsproject.service.serviceImpl.ContactsImportService;
 import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +23,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/user/contacts")
+@Tag(name = "Contact controller", description = "Methods for manipulating contacts. For user only.")
 @RequiredArgsConstructor
 @Validated
-public class ContactController {
+public class ContactController implements GlobalResponseDefinition {
 
     private final ContactServiceImpl contactsService;
 

@@ -2,7 +2,9 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
+import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
 import com.example.contactsproject.service.serviceImpl.RoleServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/roles")
+@Tag(name = "Role controller", description = "Methods for manipulating roles. For admin only.")
 @RequiredArgsConstructor
-public class RoleController {
+public class RoleController implements GlobalResponseDefinition {
 
     private final RoleServiceImpl roleService;
 
