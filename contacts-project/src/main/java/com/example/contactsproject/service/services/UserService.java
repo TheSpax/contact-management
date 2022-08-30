@@ -29,6 +29,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final UserMapper userMapper;
 
     private final RoleRepository roleRepository;
