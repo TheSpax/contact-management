@@ -1,4 +1,4 @@
-package com.example.contactsproject.security.userDetails;
+package com.example.contactsproject.service.userDetails;
 
 import com.example.contactsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package com.example.contactsproject.security;
+package com.example.contactsproject.config.security;
 
-import com.example.contactsproject.security.userDetails.CustomUserDetailsService;
-import com.example.contactsproject.swagger.NoPopupBasicAuthEntryPoint;
+import com.example.contactsproject.service.userDetails.CustomUserDetailsService;
+import com.example.contactsproject.config.swagger.NoPopupBasicAuthEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl;
+package com.example.contactsproject.service.services;
 
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl {
+public class RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;

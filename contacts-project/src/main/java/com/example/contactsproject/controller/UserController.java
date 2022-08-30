@@ -3,7 +3,7 @@ package com.example.contactsproject.controller;
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
 import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
-import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
+import com.example.contactsproject.service.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController implements GlobalResponseDefinition {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping("")
     public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {

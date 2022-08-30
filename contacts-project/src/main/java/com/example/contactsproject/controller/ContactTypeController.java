@@ -3,7 +3,7 @@ package com.example.contactsproject.controller;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeRequestDTO;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeResponseDTO;
 import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
-import com.example.contactsproject.service.serviceImpl.ContactTypeServiceImpl;
+import com.example.contactsproject.service.services.ContactTypeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContactTypeController implements GlobalResponseDefinition {
 
-    private final ContactTypeServiceImpl contactTypeService;
+    private final ContactTypeService contactTypeService;
 
     @GetMapping
     public ResponseEntity<List<ContactTypeResponseDTO>> getAllContactTypes() {

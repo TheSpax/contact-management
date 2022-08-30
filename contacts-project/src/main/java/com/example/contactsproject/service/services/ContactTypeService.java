@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl;
+package com.example.contactsproject.service.services;
 
 import com.example.contactsproject.controller.dto.contactType.ContactTypeRequestDTO;
 import com.example.contactsproject.controller.dto.contactType.ContactTypeResponseDTO;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ContactTypeServiceImpl {
+public class ContactTypeService {
 
     private final ContactTypeRepository contactTypeRepository;
     private final ContactTypeMapper contactTypeMapper;
