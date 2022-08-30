@@ -4,10 +4,8 @@ import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.controller.exceptions.FileEmptyException;
 import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
-import com.example.contactsproject.entity.User;
-import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
-import com.example.contactsproject.service.serviceImpl.ContactsImportService;
-import com.example.contactsproject.service.serviceImpl.UserServiceImpl;
+import com.example.contactsproject.service.services.ContactService;
+import com.example.contactsproject.service.services.ContactsImportService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,30 +26,25 @@ import java.util.UUID;
 @Validated
 public class ContactController implements GlobalResponseDefinition {
 
-    private final ContactServiceImpl contactsService;
+    private final ContactService contactsService;
 
     private final ContactsImportService contactsImportService;
 
-    private final UserServiceImpl userService;
-
     @GetMapping
     public ResponseEntity<Page<ContactResponseDTO>> getAllContacts(Pageable pageable) {
-        User user = userService.getLoggedUser();
-        return ResponseEntity.ok(contactsService.getAllContactsByUser(user.getUid(), pageable));
+        return ResponseEntity.ok(contactsService.getAllContactsByUser(pageable));
     }
 
     @GetMapping("/{contactUid}")
     public ResponseEntity<ContactResponseDTO> getContactById(@PathVariable UUID contactUid) {
-        User user = userService.getLoggedUser();
-        return ResponseEntity.ok(contactsService.getByUid(contactUid, user.getUid()));
+        return ResponseEntity.ok(contactsService.getByUid(contactUid));
     }
 
     @GetMapping("/search/{field}")
     public Page<ContactResponseDTO> getContactsByUserUidWithSearch(
             @PathVariable @Size(min = 3, message = "Search field must contain at least 3 characters.") String field,
             Pageable pageable) {
-        User user = userService.getLoggedUser();
-        return contactsService.getAllByField(user.getUid(), field, pageable);
+        return contactsService.getAllByField(field, pageable);
     }
 
     @PostMapping
@@ -67,15 +60,13 @@ public class ContactController implements GlobalResponseDefinition {
 
     @PutMapping("/{contactUid}")
     public ResponseEntity updateContact(@PathVariable UUID contactUid, @Valid @RequestBody ContactRequestDTO contactRequestDTO) {
-        User user = userService.getLoggedUser();
-        contactsService.update(contactUid, contactRequestDTO, user.getUid());
+        contactsService.update(contactUid, contactRequestDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{contactUid}")
     public void deleteContactByUid(@PathVariable UUID contactUid) {
-        User user = userService.getLoggedUser();
-        contactsService.deleteByUid(contactUid, user.getUid());
+        contactsService.deleteByUid(contactUid);
     }
 
 }

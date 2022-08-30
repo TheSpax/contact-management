@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl;
+package com.example.contactsproject.service.services;
 
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.exceptions.FileEmptyException;
@@ -25,7 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ContactsImportService {
 
-    private final ContactServiceImpl contactService;
+    private final ContactService contactService;
 
     private ResponseEntity getResponseBasedOnErrors(List<String> errors, List<ContactRequestDTO> contacts, int contactsImported) {
         Map<String, String> message = new HashMap<>();

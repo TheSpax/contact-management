@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl;
+package com.example.contactsproject.service.services;
 
 import com.example.contactsproject.controller.dto.contact.ContactRequestDTO;
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
@@ -22,23 +22,28 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ContactServiceImpl {
+public class ContactService {
 
-    private Logger logger = LoggerFactory.getLogger(ContactServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(ContactService.class);
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
     private final ContactTypeRepository contactTypeRepository;
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
-    public ContactResponseDTO getByUid(UUID contactUid, UUID userUid) {
-        return contactMapper.mapContactToContactDTO(contactRepository.findByUidAndUser_Uid(contactUid, userUid).orElseThrow(() -> new EntityNotFoundException("Contact not found")));
+    public ContactResponseDTO getByUid(UUID contactUid) {
+        return contactMapper.mapContactToContactDTO(getContactByUser(contactUid));
+    }
+
+    private Contact getContactByUser(UUID contactUid) {
+        User user = userService.getLoggedUser();
+        return contactRepository.findByUidAndUser_Uid(contactUid, user.getUid()).orElseThrow(() -> new EntityNotFoundException("Contact not found"));
     }
 
     @Transactional
     public Contact userContactUidCheck(UUID contactUid, UUID userUid) {
-        Contact contact = contactRepository.findByUid(contactUid).orElseThrow(() -> new EntityNotFoundException("Contact not found"));
+        Contact contact = getContact(contactUid);
         if (contact.getUser().getUid().equals(userUid)) {
             return contact;
         } else {
@@ -46,17 +51,24 @@ public class ContactServiceImpl {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Contact getContact(UUID contactUid) {
+        return contactRepository.findByUid(contactUid).orElseThrow(() -> new EntityNotFoundException("Contact not found"));
+    }
+
     @Transactional
-    public void update(UUID contactUid, ContactRequestDTO contactRequestDTO, UUID userUid) {
-        Contact contact = this.userContactUidCheck(contactUid, userUid);
+    public void update(UUID contactUid, ContactRequestDTO contactRequestDTO) {
+        User user = userService.getLoggedUser();
+        Contact contact = this.userContactUidCheck(contactUid, user.getUid());
         ContactType contactType = getContactType(contactRequestDTO);
         contact = contactMapper.mapContactFromDTOUpdate(contact, contactRequestDTO, contactType);
         contactRepository.save(contact);
     }
 
     @Transactional
-    public void deleteByUid(UUID contactUid, UUID userUid) {
-        Contact contact = this.userContactUidCheck(contactUid, userUid);
+    public void deleteByUid(UUID contactUid) {
+        User user = userService.getLoggedUser();
+        Contact contact = this.userContactUidCheck(contactUid, user.getUid());
         contactRepository.deleteByUid(contact.getUid());
     }
 
@@ -71,8 +83,9 @@ public class ContactServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    public Page<ContactResponseDTO> getAllContactsByUser(UUID userUid, Pageable pageable) {
-        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findAllByUser_Uid(userUid, pageable));
+    public Page<ContactResponseDTO> getAllContactsByUser(Pageable pageable) {
+        User user = userService.getLoggedUser();
+        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findAllByUser_Uid(user.getUid(), pageable));
     }
 
     @Transactional(readOnly = true)
@@ -81,8 +94,9 @@ public class ContactServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    public Page<ContactResponseDTO> getAllByField(UUID userUid, String field, Pageable pageable) {
-        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findByFieldPassedAndUser(field, userUid, pageable));
+    public Page<ContactResponseDTO> getAllByField(String field, Pageable pageable) {
+        User user = userService.getLoggedUser();
+        return contactMapper.mapContactsToPageContactsDTO(contactRepository.findByFieldPassedAndUser(field, user.getUid(), pageable));
     }
 
     @Transactional(readOnly = true)

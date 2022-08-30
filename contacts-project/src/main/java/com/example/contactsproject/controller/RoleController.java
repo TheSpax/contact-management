@@ -3,7 +3,7 @@ package com.example.contactsproject.controller;
 import com.example.contactsproject.controller.dto.role.RoleRequestDTO;
 import com.example.contactsproject.controller.dto.role.RoleResponseDTO;
 import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
-import com.example.contactsproject.service.serviceImpl.RoleServiceImpl;
+import com.example.contactsproject.service.services.RoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoleController implements GlobalResponseDefinition {
 
-    private final RoleServiceImpl roleService;
+    private final RoleService roleService;
 
     @GetMapping
     public ResponseEntity<List<RoleResponseDTO>> getAllRoles() {

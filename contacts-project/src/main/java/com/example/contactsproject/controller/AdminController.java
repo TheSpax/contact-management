@@ -2,7 +2,7 @@ package com.example.contactsproject.controller;
 
 import com.example.contactsproject.controller.dto.contact.ContactResponseDTO;
 import com.example.contactsproject.controller.interfaces.GlobalResponseDefinition;
-import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
+import com.example.contactsproject.service.services.ContactService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,9 +20,9 @@ import javax.validation.constraints.Size;
 @Tag(name = "Admin accessories controller", description = "Method for searching contacts. For admin only.")
 @RequiredArgsConstructor
 @Validated
-public class AdminAccessoriesController implements GlobalResponseDefinition {
+public class AdminController implements GlobalResponseDefinition {
 
-    private final ContactServiceImpl contactService;
+    private final ContactService contactService;
 
     @GetMapping("/contacts/{field}")
     public Page<ContactResponseDTO> getContactsWithSearch(

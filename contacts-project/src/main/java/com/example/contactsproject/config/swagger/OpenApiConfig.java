@@ -1,4 +1,4 @@
-package com.example.contactsproject.swagger;
+package com.example.contactsproject.config.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

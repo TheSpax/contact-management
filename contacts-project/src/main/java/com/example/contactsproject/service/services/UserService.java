@@ -1,4 +1,4 @@
-package com.example.contactsproject.service.serviceImpl;
+package com.example.contactsproject.service.services;
 
 import com.example.contactsproject.controller.dto.user.UserRequestDTO;
 import com.example.contactsproject.controller.dto.user.UserResponseDTO;
@@ -6,6 +6,7 @@ import com.example.contactsproject.entity.Role;
 import com.example.contactsproject.entity.User;
 import com.example.contactsproject.repository.RoleRepository;
 import com.example.contactsproject.repository.UserRepository;
+import com.example.contactsproject.service.email.EmailCustomService;
 import com.example.contactsproject.service.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,16 +20,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     private final RoleRepository roleRepository;
+
+    private final EmailCustomService emailCustomService;
 
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> getAll(Pageable pageable) {
@@ -44,6 +49,10 @@ public class UserServiceImpl {
     public void save(UserRequestDTO userRequestDTO) {
         User user = userMapper.mapUserFromUserDTO(userRequestDTO, this.getRole(userRequestDTO));
         userRepository.save(user);
+        Map<String, String> model = new HashMap<>();
+        model.put("firstName", user.getFirstName());
+        model.put("lastName", user.getLastName());
+        emailCustomService.sendSimpleMessage(userRequestDTO.getEmail(), model);
     }
 
     @Transactional

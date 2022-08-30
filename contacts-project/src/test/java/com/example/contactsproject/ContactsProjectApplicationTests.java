@@ -1,8 +1,8 @@
 package com.example.contactsproject;
 
 import com.example.contactsproject.controller.exceptions.FileEmptyException;
-import com.example.contactsproject.service.serviceImpl.ContactServiceImpl;
-import com.example.contactsproject.service.serviceImpl.ContactsImportService;
+import com.example.contactsproject.service.services.ContactService;
+import com.example.contactsproject.service.services.ContactsImportService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import java.util.Map;
 class ContactsProjectApplicationTests {
 
     @Mock
-    ContactServiceImpl contactService;
+    ContactService contactService;
 
     @InjectMocks
     ContactsImportService contactsImportService;

@@ -1,4 +1,4 @@
-package com.example.contactsproject.exceptionHandler;
+package com.example.contactsproject.controller.exceptions.exceptionHandler;
 
 import com.example.contactsproject.controller.exceptions.FileEmptyException;
 import org.springframework.http.HttpHeaders;
