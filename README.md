@@ -11,6 +11,8 @@ Further, you can se a list of prerequisites needed to run this project
 * Git
 * Postman (optional)
 
+Alternative way is to use Docker
+
 ### Instalation
 Next, there will be a guide on how to install the needed prerequisites
 > Installing Java
@@ -37,6 +39,10 @@ Next, there will be a guide on how to install the needed prerequisites
 * Download the installation file from the next [link](https://www.postman.com/downloads/ "Postman download")
 * Run the installation file and follow the wizard
 
+> Installing Docker
+* Download the installation file from the next [link](https://www.docker.com/ "Docker download")
+* Run the installation file and follow the wizard
+
 ## Executing program
 * Clone the repository on your machine using the next command
 ```bash
@@ -45,5 +51,17 @@ git clone https://github.com/TheSpax/contact-management.git
 * Make sure your PostgreSQL is running
 * Open app folder in your IDE and run the program
 
+### Usign Docker
+* Run the next command to build the services
+```bash
+docker compose build
+```
+* Run the next command to create and start the containers
+```bash
+docker compose up
+```
+* Once everything is up and running you can start using the app.
+
 ## Usage
-Once the app is up and running you can access the endpoints logged in as admin or user depending on which endpoint you want to access. You can access http://localhost:8080/contact-manager/swagger-ui.html to open the swagger ui documentation for the project.
+Once the app is up and running you can access the endpoints logged in as admin or user depending on which endpoint you want to access. You can access http://localhost:8080/contact-manager/swagger-ui.html to open the swagger ui documentation for the project. <br>
+To use twilio services make sure to put your tokens in the UserService class in the specified strings.
