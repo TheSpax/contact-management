@@ -30,6 +30,8 @@ public class UserMapper {
         userResponseDTO.setUsername(user.getUsername());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setUid(user.getUid());
+        userResponseDTO.setPhoneNumber(user.getPhoneNumber());
+        userResponseDTO.setStatus(user.getStatus());
         return userResponseDTO;
     }
 
@@ -44,6 +46,8 @@ public class UserMapper {
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+        user.setPhoneNumber(userRequestDTO.getPhoneNumber());
+        user.setStatus("Not verified");
         user.setRole(role);
     }
 

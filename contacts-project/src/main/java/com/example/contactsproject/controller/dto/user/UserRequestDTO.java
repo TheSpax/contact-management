@@ -39,4 +39,13 @@ public class UserRequestDTO {
     @NotNull(message = "uuid must not be blank!")
     private UUID roleUid;
 
+    @NotBlank(groups = Update.class)
+    private String phoneNumber;
+
+    public interface Create {
+    }
+
+    public interface Update {
+    }
+
 }
