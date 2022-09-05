@@ -49,6 +49,7 @@ Next, there will be a guide on how to install the needed prerequisites
 git clone https://github.com/TheSpax/contact-management.git
 ```
 * Make sure your PostgreSQL is running
+* Create contacts_migration database
 * Open app folder in your IDE and run the program
 
 ### Usign Docker
