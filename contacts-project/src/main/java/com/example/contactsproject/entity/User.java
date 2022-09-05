@@ -72,6 +72,13 @@ public class User implements UserDetails {
     @Column(name = "uid", unique = true, updatable = false)
     private UUID uid;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @NotNull
+    @Column(name = "status")
+    private String status;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
